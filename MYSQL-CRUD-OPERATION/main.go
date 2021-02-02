@@ -172,6 +172,7 @@ func servererror(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	defer db.Close()
 	fmt.Println("Server started at 7000")
 	http.HandleFunc("/", index)
 	http.HandleFunc("/insert", insert)
