@@ -601,7 +601,7 @@ func showdetails(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	fmt.Println("Json Marshal and Unmarshal Code")
-	http.HandleFunc("/index", showdetails)
+	http.HandleFunc("/", showdetails)
 	fmt.Println("Server started at 8080")
 	http.ListenAndServe(":8080", nil)
 

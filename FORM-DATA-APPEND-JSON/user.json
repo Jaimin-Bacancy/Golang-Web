@@ -1,0 +1,26 @@
+[
+ {
+  "Userid": 1,
+  "Firstname": "jaimin",
+  "Lastname": "parmar",
+  "DataofBirth": "13/12/1999",
+  "Email": "jaimin.parmar99999@gmail.com",
+  "MobileNumber": "1234567890"
+ },
+ {
+  "Userid": 2,
+  "Firstname": "anshuman",
+  "Lastname": "aich",
+  "DataofBirth": "12 december 1999",
+  "Email": "anshuman@gmail.com",
+  "MobileNumber": "2131231444"
+ },
+ {
+  "Userid": 3,
+  "Firstname": "abhi",
+  "Lastname": "tank",
+  "DataofBirth": "15 jan 2000",
+  "Email": "abhitank@gmail.com",
+  "MobileNumber": "1243123422"
+ }
+]

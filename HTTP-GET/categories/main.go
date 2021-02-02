@@ -39,7 +39,7 @@ func main() {
 	}
 
 	var alldata categories
-	err = json.Unmarshal([]byte(body), &all)
+	err = json.Unmarshal([]byte(body), &alldata)
 	if err != nil {
 		fmt.Println(err)
 	}

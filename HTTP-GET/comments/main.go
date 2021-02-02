@@ -30,7 +30,7 @@ type comment struct {
 }
 
 func main() {
-	fmt.Println("Comments api fetch using get . . .")
+	fmt.Println("Comments api")
 	url := "https://gorest.co.in/public-api/comments"
 	resp, err := http.Get(url)
 	if err != nil {

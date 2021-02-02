@@ -2,7 +2,7 @@
 "code": 200,
 "meta": {
 "pagination": {
-"total": 18,
+"total": 17,
 "pages": 1,
 "page": 1,
 "limit": 20
@@ -11,110 +11,104 @@
 "data": [
 {
 "id": 1,
-"name": "Sports \u0026 Beauty",
-"description": "Caritas credo pecto colligo rerum baiulus distinctio nobis.",
+"name": "Electronics \u0026 Computers",
+"description": "Capto thema nisi cresco constans ager.",
 "status": true
 },
 {
 "id": 2,
-"name": "Toys",
-"description": "Cruentus arma audax corporis cribro timor unde.",
+"name": "Books",
+"description": "Corroboro ulciscor eligendi aveho comburo aperiam.",
 "status": true
 },
 {
 "id": 3,
-"name": "Movies \u0026 Jewelry",
-"description": "Est depereo celo bardus ocer surgo ad abscido viridis.",
+"name": "Beauty, Music \u0026 Games",
+"description": "Cibo sufficio ventito et vox tribuo eligendi torrens.",
 "status": true
 },
 {
 "id": 4,
-"name": "Movies \u0026 Shoes",
-"description": "Confugo comedo auctor autem certe.",
+"name": "Baby \u0026 Games",
+"description": "Cuius quia contigo sol nobis carpo attollo circumvenio ars dolores auxilium.",
 "status": true
 },
 {
 "id": 5,
-"name": "Electronics \u0026 Clothing",
-"description": "Verbera desipio tabernus ulciscor sumptus reiciendis.",
+"name": "Movies \u0026 Industrial",
+"description": "Stella confido amitto cum caritas.",
 "status": true
 },
 {
 "id": 6,
-"name": "Home, Garden \u0026 Tools",
-"description": "Acerbitas cunae verbera creator volaticus ancilla clementia sunt.",
+"name": "Grocery, Beauty \u0026 Home",
+"description": "Undique valens tam spectaculum solutio velit usitas curia.",
 "status": true
 },
 {
 "id": 7,
-"name": "Industrial \u0026 Sports",
-"description": "Et dolor arcus cupiditate voluptatem defaeco adimpleo apto adulescens.",
+"name": "Movies",
+"description": "Truculenter defetiscor corrumpo tepesco urbanus celebrer conicio trado quibusdam.",
 "status": true
 },
 {
 "id": 8,
-"name": "Books, Health \u0026 Clothing",
-"description": "Celer delinquo in clibanus veritatis laudantium ultio theologus verecundia quo.",
+"name": "Outdoors \u0026 Tools",
+"description": "Ulciscor vos tristis neque bos victoria.",
 "status": true
 },
 {
 "id": 9,
-"name": "Sports \u0026 Health",
-"description": "Conturbo amplexus dedico et curia suppono cerno temporibus vito.",
+"name": "Shoes, Books \u0026 Electronics",
+"description": "Casus cibo calamitas temporibus ut crastinus aspicio.",
 "status": true
 },
 {
 "id": 10,
-"name": "Baby, Home \u0026 Grocery",
-"description": "Dolor synagoga eligendi vel tero cado tempore veritatis allatus.",
+"name": "Music, Electronics \u0026 Home",
+"description": "Universe assumenda summopere qui damnatio cum voluptatem cruentus torqueo quos.",
 "status": true
 },
 {
 "id": 11,
-"name": "Garden \u0026 Books",
-"description": "Umerus brevis vultuosus antepono autem amor.",
+"name": "Shoes",
+"description": "Acidus et maxime alter decumbo totam apud neque concido thesaurus.",
 "status": true
 },
 {
 "id": 12,
-"name": "Tools",
-"description": "Thymbra temperantia defungo aeternus cur ipsum doloremque vito paulatim vestigium tenax.",
+"name": "Electronics",
+"description": "Valde sed vulnero audax decimus ut quis denego sulum natus avoco.",
 "status": true
 },
 {
 "id": 13,
-"name": "Movies \u0026 Clothing",
-"description": "Minus comes demum damnatio curis.",
+"name": "Grocery \u0026 Garden",
+"description": "Amicitia adfectus patria aranea et cedo demitto conservo.",
 "status": true
 },
 {
 "id": 14,
-"name": "Tools, Kids \u0026 Computers",
-"description": "Speculum calamitas talis certe votum.",
+"name": "Jewelry, Beauty \u0026 Baby",
+"description": "Curo celo cupiditas quo utpote compono amissio deleo enim charisma.",
 "status": true
 },
 {
 "id": 15,
-"name": "Music \u0026 Baby",
-"description": "Capio quis labore doloribus veritatis quibusdam quia theca sed.",
+"name": "Baby \u0026 Automotive",
+"description": "Adstringo paulatim eos suscipit dedico arcus summa suasoria sit derideo sono.",
 "status": true
 },
 {
 "id": 16,
-"name": "Movies",
-"description": "Deporto animadverto verto tardus agnosco adsum coruscus saepe eius.",
+"name": "Tools",
+"description": "Aspernatur acsi subvenio dapifer decimus tamdiu venio aer.",
 "status": true
 },
 {
 "id": 17,
-"name": "Outdoors, Computers \u0026 Sports",
-"description": "Amiculum sopor sollers tamdiu commemoro venustas.",
-"status": true
-},
-{
-"id": 18,
-"name": "Grocery \u0026 Sports",
-"description": "Adficio quia eos utique cura.",
+"name": "Automotive",
+"description": "Cervus decerno socius ad voluptatem at caritas ullam clementia.",
 "status": true
 }
 ]
