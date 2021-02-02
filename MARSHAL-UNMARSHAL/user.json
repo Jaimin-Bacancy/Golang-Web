@@ -1,0 +1,34 @@
+[
+    {
+        "id":1,
+        "name": "Radha",
+        "address":{
+            "area":"Bopal",
+            "country":"IND"
+        }
+    },
+    {
+        "id":2,
+        "name": "Aniket",
+        "address":{
+            "area":"Maninagar",
+            "country":"UK"
+        }
+    },
+    {
+        "id":3,
+        "name": "Jaimin",
+        "address":{
+            "area":"Rajkot",
+            "country":"UK"
+        }
+    }, 
+    {
+        "id":2,
+        "name": "Anshuman",
+        "address":{
+            "area":"Baroda",
+            "country":"UK"
+        }
+    }
+]

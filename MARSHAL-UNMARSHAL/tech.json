@@ -1,0 +1,47 @@
+[
+    {
+        "id":1,
+        "techDets":[
+            {
+                "tech":"React",
+                "exp":3
+            },
+            {
+                "tech":"Golang",
+                "exp":1.5
+            }
+        ]
+    },
+    {
+        "id":2,
+        "techDets":[
+            {
+                "tech":"Vue",
+                "exp":0.9
+            },
+            {
+                "tech":"Golang",
+                "exp":1.5
+            }
+        ]
+    },
+    {
+        "id":3,
+        "techDets":[
+            {
+                "tech":"Golang",
+                "exp":0.3
+            }
+        ]
+    },  
+    {
+        "id":4,
+        "techDets":[
+            {
+                "tech":"Golang",
+                "exp":0.3
+            }
+        ]
+    }
+    
+]

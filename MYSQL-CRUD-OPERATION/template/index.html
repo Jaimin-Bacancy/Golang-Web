@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>INDEX</title>      
+         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js"></script>
+        
+        <style type="text/css">
+            .error{
+                    color:red;
+                    margin-top:5px;
+                    font-size:17px;
+                    font-weight:bold;
+                }
+        </style>
+    </head>
+    <body>
+       
+        <div class="container">
+            <br><br><br><br>
+            <h1 style="text-align:center;font-weight: bold;">Customer Form</h1>
+       
+      
+            <br>
+            <form method="post" id="user-form" action="/insert">
+      
+                <div class="row">
+                    <div class="col-sm-4 col-sm-offset-4">
+                        <div class="form-group">
+                            <label>First Name</label>
+                            <input type="text" name="firstname" style="font-size:18px" id="firstname" autocomplete="off" class="form-control" placeholder="Enter a First Name">
+                        </div>
+                        <div class="form-group">
+                            <label>Last Name</label>
+                            <input type="text" name="lastname" style="font-size:18px" id="lastname" autocomplete="off" class="form-control" placeholder="Enter a Last Name">
+                        </div>
+                        <div class="form-group">
+                            <label>Date of Birth</label>
+                            <input type="text" name="dateofbirth" style="font-size:18px" id="dateofbirth" autocomplete="off" class="form-control" placeholder="Enter a Date of Birth">
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" name="email" style="font-size:18px" id="email" autocomplete="off" class="form-control" placeholder="Enter a Email">
+                        </div>
+                        <div class="form-group">
+                            <label>Mobile Number</label>
+                            <input type="text" name="mobilenumber" style="font-size:18px" id="mobilenumber" autocomplete="off" class="form-control" placeholder="Enter a Mobile Number">
+                        </div>
+                        <input type="submit" class="form-control btn btn-info" value="submit">   
+                        <br>  <br>
+                        <a href="/display" style="text-decoration: none;" class="text-center form-control btn-primary">Display Data</a> 
+                    </div>   
+
+                </div>   
+
+            </form>
+            
+           
+        </div>
+        <script>
+            $(document).ready(function(){
+                
+                
+                $("#user-form").validate({
+                    rules:{
+                        firstname: "required",
+                        lastname: "required",
+                        dateofbirth:"required",
+                        email:"required",
+                        mobilenumber:{
+                            required:true,
+                            minlength:10,
+                            maxlength:10,
+                          
+                        },
+                    },
+                    
+                    messages:{
+                        firstname: "*Please Enter a FirstName",
+                        lastname: "*Please Enter a LastName",
+                        dateofbirth:"*Please Enter a Date of Birth",
+                        email:"*Please Enter a Email",
+                        
+                    }
+                });
+            });
+        </script>
+    </body>
+    
+</html>

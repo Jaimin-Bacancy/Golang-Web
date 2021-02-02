@@ -1,0 +1,78 @@
+[
+ {
+  "Userid": 1,
+  "Name": "Radha",
+  "Address": {
+   "area": "Bopal",
+   "country": "IND"
+  },
+  "TechDetails": [
+   {
+    "tech": "React",
+    "exp": 3
+   },
+   {
+    "tech": "Golang",
+    "exp": 1.5
+   }
+  ],
+  "Email": "radha.kotecha@bacancy.com",
+  "Phone": "+91 12345 7890"
+ },
+ {
+  "Userid": 2,
+  "Name": "Aniket",
+  "Address": {
+   "area": "Maninagar",
+   "country": "UK"
+  },
+  "TechDetails": [
+   {
+    "tech": "Vue",
+    "exp": 0.9
+   },
+   {
+    "tech": "Golang",
+    "exp": 1.5
+   }
+  ],
+  "Email": "aniket.amin@bacancy.com",
+  "Phone": "+41 09876 54321"
+ },
+ {
+  "Userid": 3,
+  "Name": "Jaimin",
+  "Address": {
+   "area": "Rajkot",
+   "country": "UK"
+  },
+  "TechDetails": [
+   {
+    "tech": "Golang",
+    "exp": 0.3
+   }
+  ],
+  "Email": "jaimin.parmar@bacancy.com",
+  "Phone": "+41 96628 73324"
+ },
+ {
+  "Userid": 2,
+  "Name": "Anshuman",
+  "Address": {
+   "area": "Baroda",
+   "country": "UK"
+  },
+  "TechDetails": [
+   {
+    "tech": "Vue",
+    "exp": 0.9
+   },
+   {
+    "tech": "Golang",
+    "exp": 1.5
+   }
+  ],
+  "Email": "aniket.amin@bacancy.com",
+  "Phone": "+41 09876 54321"
+ }
+]

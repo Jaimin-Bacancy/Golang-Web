@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>User</title>      
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    </head>
+    <body>
+     
+        <div class="container">
+            <br>
+            <a href="/" class="btn btn-primary">Back</a>
+            <h1 style="text-align:center">User Data</h1>
+            <br>
+            
+              <table class="table" border="1">
+                <thead class="thead-dark">
+                   <tr>
+                        <th scope="col">User Id</th>
+                        <th scope="col">Firstname</th>
+                        <th scope="col">Lastname</th>
+                        <th scope="col">DataofBirth</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">MobileNumber</th>
+                        <th scope="col">Edit</th>
+                        <th scope="col">Delete</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {{range .}}
+                   <tr>
+                        <td>  {{.Userid}} </td>
+                        <td>   {{.Firstname}} </td>
+                        <td>   {{.Lastname}} </td>
+                        <td>   {{.DataofBirth}} </td>
+                        <td>   {{.Email}} </td>
+                        <td>   {{.MobileNumber}} </td>
+                        <td>   <a href="/edit?id={{.Userid}}"><button type="button" class="btn btn-info">Edit</button></a> </td>
+                        <td>    <a href="delete?id={{ .Userid }}"><button type="button" class="btn btn-danger">Delete</button> </a></td>
+                  </tr>
+                {{end}}
+            </tbody>
+              </table>
+            
+            
+        </div>
+       
+    </body>
+    
+</html>
