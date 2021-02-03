@@ -21,11 +21,12 @@ type Customer struct {
 }
 
 var deleteid string
-var db *sql.DB
 
-func init() {
-	var err error
-	db, err = sql.Open("mysql", "root:@/Customer")
+var tmpl = template.Must(template.ParseGlob("template/*"))
+
+func conn() *sql.DB {
+
+	db, err := sql.Open("mysql", "root:@/Customer")
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -34,9 +35,8 @@ func init() {
 		log.Fatalln(err)
 	}
 	fmt.Println("Successfully connected to database!")
+	return db
 }
-
-var tmpl = template.Must(template.ParseGlob("template/*"))
 
 func index(w http.ResponseWriter, r *http.Request) {
 	tmpl.ExecuteTemplate(w, "index.html", nil)
@@ -53,6 +53,8 @@ func insert(w http.ResponseWriter, r *http.Request) {
 			Dateofbirth:  r.FormValue("dateofbirth"),
 			Mobilenumber: r.FormValue("mobilenumber"),
 		}
+		db := conn()
+		defer db.Close()
 		stmt, err := db.Prepare(sql)
 		if err != nil {
 			fmt.Println(err)
@@ -70,7 +72,8 @@ func insert(w http.ResponseWriter, r *http.Request) {
 }
 
 func getallUser(w http.ResponseWriter, r *http.Request) {
-
+	db := conn()
+	defer db.Close()
 	var customers []Customer
 	rows, err := db.Query("SELECT *FROM customer")
 
@@ -96,6 +99,8 @@ func getallUser(w http.ResponseWriter, r *http.Request) {
 func delete(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Query().Get("id")
 	deleteid = id
+	db := conn()
+	defer db.Close()
 	sql := "DELETE FROM customer where id = ?"
 	stmt, err := db.Prepare(sql)
 	if err != nil {
@@ -121,7 +126,8 @@ func delete(w http.ResponseWriter, r *http.Request) {
 func edit(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Query().Get("id")
 	sql := "SELECT *FROM customer WHERE id=" + id
-
+	db := conn()
+	defer db.Close()
 	rows := db.QueryRow(sql)
 	var customer Customer
 	err := rows.Scan(&customer.Customerid, &customer.FirstName, &customer.LastName, &customer.Email, &customer.Dateofbirth, &customer.Mobilenumber)
@@ -146,6 +152,8 @@ func update(w http.ResponseWriter, r *http.Request) {
 			Dateofbirth:  r.FormValue("dateofbirth"),
 			Mobilenumber: r.FormValue("mobilenumber"),
 		}
+		db := conn()
+		defer db.Close()
 		stmt, err := db.Prepare(sql)
 		if err != nil {
 			fmt.Println(err)
@@ -172,7 +180,6 @@ func servererror(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	defer db.Close()
 	fmt.Println("Server started at 7000")
 	http.HandleFunc("/", index)
 	http.HandleFunc("/insert", insert)
