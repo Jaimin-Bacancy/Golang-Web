@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Images</title>
+</head>
+<body>
+        <table>
+                <tr>
+                    <th>Id</th>
+                    <th>Image</th>
+                </tr>
+                {{range .}}
+                <tr>
+                    <td>{{.ID}}</td>
+                    <td><img src="http://localhost:8000/{{.Imagepath}}" height="300px" width="300px"></td>
+                </tr>
+                {{end}}
+        </table>
+</body>
+</html>

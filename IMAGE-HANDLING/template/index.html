@@ -3,15 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js"></script>
+    <title>INDEX</title>
+    <style>
+            .error{
+                    color:red;
+            }
+    </style>               
 </head>
 <body>
-        <form action="/saveimage" method="POST" enctype="multipart/form-data">
-                <input type="file" name="file">
-                <bt>
-                <input type="submit" name="submit" value="save">
-        </form>
+        <div class="container">
+                <br> <br> <br>
+                <div class="row">
+                        <div class="col-sm-4 col-sm-offset-4">
+                                        <h1 style="text-align: center;">FORM</h1>
+                                        <br>
+                                        <form id="form-file" action="/saveimage" method="POST" enctype="multipart/form-data">
+                                                <div class="form-group"> 
+                                                <input type="file" class="form-control" name="file">
+
+                                                </div>
+                                                <bt>
+                                                <input type="submit" class="form-control btn btn-info" name="submit" value="save">
+                                        </form>
+                        </div>
+                </div>
         <br>
+        </div>   
         <!-- <img src="http://localhost:8000/static/Book%2001%20-%20Effective%20Java.jpg" height="300px" width="300px"> -->
+        
+        <script>
+
+                $(document).ready(function(){
+                    
+                    
+                    $("#form-file").validate({
+                        rules:{
+                            file: {
+                                required: true,
+                            },
+                        },
+                        
+                        messages:{
+                            file: "*Please Upload File",
+                        }
+                    });
+                });
+        </script>
+
 </body>
 </html>
