@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>INDEX</title>
+   <style>
+       td ,th {
+           text-align: center;
+           background-color: white;
+       }
+
+       body {
+            background: #76b852;
+       }
+   </style>
+</head>
+<body>
+    <div class="container">
+        <h1 style="text-align: center;">Trains</h1>
+        <br>
+        <table id="trains" class="table shadow-lg" border="1"></table>
+    
+    </div>
+        <script>
+            $(document).ready(function () {
+
+             
+                      fetch("http://localhost:8080/Trains")
+
+                    // Converting received data to JSON 
+                    .then(response => response.json())
+                    .then(json => {
+
+                        // Create a variable to store HTML 
+                        let li = `<thead class="thead-dark"><tr><th>NO</th><th>NAME</th><th>STARTS</th><th>ENDS</th></tr>  </thead> <tbody>`;
+
+                        // Loop through each data and add a table row 
+                        json.forEach(train => {
+                            li += `<tr> 
+                <td>${train.no} </td> 
+                <td>${train.name}</td>          
+                 <td>${train.starts}</td>         
+                  <td>${train.ends}</td>         
+            </tr>`;
+                        });
+
+                        // Display result 
+                        li+=" </tbody>"
+                        document.getElementById("trains").innerHTML = li;
+                    }); 
+                    
+            
+            });
+        </script>
+    
+</body>
+</html>
