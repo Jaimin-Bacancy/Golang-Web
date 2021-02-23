@@ -5,7 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
+
     <title>INDEX</title>
    <style>
        td ,th {
@@ -22,13 +25,16 @@
     <div class="container">
         <h1 style="text-align: center;">Trains</h1>
         <br>
-        <table id="trains" class="table shadow-lg" border="1"></table>
+        <div style="background-color: white;padding:50px;">
+            <table id="trains" class="table shadow-lg" border="1"></table>
+        </div>
+      
     
     </div>
         <script>
             $(document).ready(function () {
 
-             
+                
                       fetch("http://localhost:8080/Trains")
 
                     // Converting received data to JSON 
@@ -36,11 +42,14 @@
                     .then(json => {
 
                         // Create a variable to store HTML 
-                        let li = `<thead class="thead-dark"><tr><th>NO</th><th>NAME</th><th>STARTS</th><th>ENDS</th></tr>  </thead> <tbody>`;
+                        let li = `<thead class="thead-dark"><tr><th>#</th><th>NO</th><th>NAME</th><th>STARTS</th><th>ENDS</th></tr>  </thead> <tbody>`;
 
                         // Loop through each data and add a table row 
+                        var count = 0
                         json.forEach(train => {
-                            li += `<tr> 
+                            count++
+                            li += `<tr>
+                <td>${count}</td> 
                 <td>${train.no} </td> 
                 <td>${train.name}</td>          
                  <td>${train.starts}</td>         
@@ -51,9 +60,10 @@
                         // Display result 
                         li+=" </tbody>"
                         document.getElementById("trains").innerHTML = li;
+                         $('#trains').dataTable();
                     }); 
                     
-            
+                     
             });
         </script>
     
