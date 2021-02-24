@@ -11,6 +11,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -23,9 +24,16 @@ type Train struct {
 	ENDS   string `json:"ends"`
 }
 
+func init() {
+	err := godotenv.Load(".env")
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
 func connection() *mongo.Client {
 	// Set client options
-	const dburl = "mongodb://localhost:27017"
+	dburl := os.Getenv("DBURL")
 	clientOptions := options.Client().ApplyURI(dburl)
 
 	// Connect to MongoDB
@@ -66,8 +74,10 @@ func getallTrains(w http.ResponseWriter, r *http.Request) {
 
 	client := connection()
 	defer closedatabase()
+	databaseName := os.Getenv("DATABASE_NAME")
+	collectionName := os.Getenv("COLLECTION_NAME")
 
-	collection := client.Database("traindb").Collection("trains")
+	collection := client.Database(databaseName).Collection(collectionName)
 	cursor, err := collection.Find(context.TODO(), bson.D{{}})
 
 	if err != nil {
@@ -78,6 +88,7 @@ func getallTrains(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
 	bytedata, err := json.MarshalIndent(trains, "", " ")
+
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -104,7 +115,8 @@ func readCsv(filename string) ([][]string, error) {
 }
 
 func insertToDatabase() {
-	rows, err := readCsv("All_Indian_Trains.csv")
+	filename := os.Getenv("CSV_FILENAME")
+	rows, err := readCsv(filename)
 	if err != nil {
 		panic(err)
 	}
