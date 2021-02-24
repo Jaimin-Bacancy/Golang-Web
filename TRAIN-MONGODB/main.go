@@ -9,6 +9,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -111,7 +112,7 @@ func insertToDatabase() {
 	defer closedatabase()
 	collection := getColletion(client, "traindb", "trains")
 
-	limit := 5
+	limit := 10
 	channel := make(chan int, limit)
 	for _, record := range rows {
 		var train Train
@@ -138,11 +139,15 @@ func insertToDatabase() {
 }
 
 func main() {
+
+	start := time.Now()
 	useCsvread := flag.Bool("readcsv", false, "")
 	flag.Parse()
+	fmt.Println(*useCsvread)
 	if *useCsvread {
 		insertToDatabase()
 	}
+	fmt.Println(time.Since(start))
 	fs := http.StripPrefix("/templates/", http.FileServer(http.Dir("./templates")))
 	http.Handle("/templates/", fs)
 	http.HandleFunc("/Trains", getallTrains)
