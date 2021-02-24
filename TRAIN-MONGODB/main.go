@@ -5,6 +5,7 @@ import (
 	"context"
 	"encoding/csv"
 	"encoding/json"
+	"flag"
 	"fmt"
 	"io"
 	"log"
@@ -25,7 +26,8 @@ type Train struct {
 
 func connection() *mongo.Client {
 	// Set client options
-	clientOptions := options.Client().ApplyURI("mongodb://localhost:27017")
+	dburl := "mongodb://localhost:27017"
+	clientOptions := options.Client().ApplyURI(dburl)
 
 	// Connect to MongoDB
 	client, err := mongo.Connect(context.TODO(), clientOptions)
@@ -56,6 +58,11 @@ func closedatabase() {
 	fmt.Println("Connection to MongoDB closed.")
 }
 
+func getColletion(client *mongo.Client, dbname string, colletionname string) *mongo.Collection {
+	collection := client.Database(dbname).Collection(colletionname)
+	return collection
+}
+
 func getallTrains(w http.ResponseWriter, r *http.Request) {
 
 	client := connection()
@@ -79,12 +86,12 @@ func getallTrains(w http.ResponseWriter, r *http.Request) {
 	w.Write(bytedata)
 }
 
-func readcsv(w http.ResponseWriter, r *http.Request) {
+func readcsv() {
 	csvFile, err := os.Open("All_Indian_Trains.csv")
+	defer csvFile.Close()
 	client := connection()
 	defer closedatabase()
-	collection := client.Database("traindb").Collection("trains")
-	defer csvFile.Close()
+	collection := getColletion(client, "traindb", "trains")
 
 	if err != nil {
 		panic(err)
@@ -92,10 +99,12 @@ func readcsv(w http.ResponseWriter, r *http.Request) {
 
 	// load file then skip Header
 	reader := csv.NewReader(bufio.NewReader(csvFile))
-	reader.Read()
-	var trains []Train
-	// loop through each record create a vehicle object and import
+
+	// loop through each record create a train object and import
+	limit := 5
+	channel := make(chan int, limit)
 	for {
+
 		var train Train
 		record, err := reader.Read()
 		if err == io.EOF {
@@ -103,27 +112,36 @@ func readcsv(w http.ResponseWriter, r *http.Request) {
 		} else if err != nil {
 			panic(err)
 		}
+		channel <- 1
+		go func(train *Train, record *[]string) {
+			train.NO = (*record)[1]
+			train.NAME = (*record)[2]
+			train.STARTS = (*record)[3]
+			train.ENDS = (*record)[4]
+			insertResult, err := collection.InsertOne(context.TODO(), train)
+			fmt.Println("Inserted a single document: ", insertResult.InsertedID)
+			if err != nil {
+				log.Fatal(err)
+			}
+			<-channel
+		}(&train, &record)
 
-		train.NO = record[1]
-		train.NAME = record[2]
-		train.STARTS = record[3]
-		train.ENDS = record[4]
-		trains = append(trains, train)
-		insertResult, err := collection.InsertOne(context.TODO(), train)
-		if err != nil {
-			log.Fatal(err)
-		}
-		fmt.Println("Inserted a single document: ", insertResult.InsertedID)
 	}
 
-	fmt.Println(trains)
-	fmt.Fprintf(w, "reading csv done")
+	for i := 1; i <= limit; i++ {
+		channel <- 1
+	}
+	fmt.Println("reading csv done")
 }
 
 func main() {
+	useCsvread := flag.Bool("readcsv", false, "")
+	flag.Parse()
+	if *useCsvread {
+		readcsv()
+	}
 	fs := http.StripPrefix("/templates/", http.FileServer(http.Dir("./templates")))
 	http.Handle("/templates/", fs)
-	http.HandleFunc("/readcsv", readcsv)
 	http.HandleFunc("/Trains", getallTrains)
 	fmt.Println("server started at http://localhost:8080")
 
