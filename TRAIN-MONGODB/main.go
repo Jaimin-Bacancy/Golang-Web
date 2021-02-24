@@ -1,13 +1,11 @@
 package main
 
 import (
-	"bufio"
 	"context"
 	"encoding/csv"
 	"encoding/json"
 	"flag"
 	"fmt"
-	"io"
 	"log"
 	"net/http"
 	"os"
@@ -26,7 +24,7 @@ type Train struct {
 
 func connection() *mongo.Client {
 	// Set client options
-	dburl := "mongodb://localhost:27017"
+	const dburl = "mongodb://localhost:27017"
 	clientOptions := options.Client().ApplyURI(dburl)
 
 	// Connect to MongoDB
@@ -86,32 +84,37 @@ func getallTrains(w http.ResponseWriter, r *http.Request) {
 	w.Write(bytedata)
 }
 
-func readcsv() {
-	csvFile, err := os.Open("All_Indian_Trains.csv")
-	defer csvFile.Close()
+func readCsv(filename string) ([][]string, error) {
+
+	// Open CSV file
+	f, err := os.Open(filename)
+	if err != nil {
+		return [][]string{}, err
+	}
+	defer f.Close()
+
+	// Read File into a Variable
+	rows, err := csv.NewReader(f).ReadAll()
+	if err != nil {
+		return [][]string{}, err
+	}
+
+	return rows, nil
+}
+
+func insertToDatabase() {
+	rows, err := readCsv("All_Indian_Trains.csv")
+	if err != nil {
+		panic(err)
+	}
 	client := connection()
 	defer closedatabase()
 	collection := getColletion(client, "traindb", "trains")
 
-	if err != nil {
-		panic(err)
-	}
-
-	// load file then skip Header
-	reader := csv.NewReader(bufio.NewReader(csvFile))
-
-	// loop through each record create a train object and import
 	limit := 5
 	channel := make(chan int, limit)
-	for {
-
+	for _, record := range rows {
 		var train Train
-		record, err := reader.Read()
-		if err == io.EOF {
-			break
-		} else if err != nil {
-			panic(err)
-		}
 		channel <- 1
 		go func(train *Train, record *[]string) {
 			train.NO = (*record)[1]
@@ -138,7 +141,7 @@ func main() {
 	useCsvread := flag.Bool("readcsv", false, "")
 	flag.Parse()
 	if *useCsvread {
-		readcsv()
+		insertToDatabase()
 	}
 	fs := http.StripPrefix("/templates/", http.FileServer(http.Dir("./templates")))
 	http.Handle("/templates/", fs)
