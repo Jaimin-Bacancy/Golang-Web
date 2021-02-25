@@ -23,21 +23,21 @@
 </head>
 <body>
     <div class="container">
+        
         <h1 style="text-align: center;">Trains</h1>
         <br>
         <div style="background-color: white;padding:50px;">
             <table id="trains" class="table shadow-lg" border="1"></table>
         </div>
       
-        <button type="button" class="btn btn-info">PREV</button>
-        <button type="button" class="btn btn-info">NEXT</button>
+     
 
     </div>
-        <script>
+        
             $(document).ready(function () {
 
 
-                      fetch("http://localhost:8080/LimitTrain?page=0")
+                      fetch("http://localhost:8080/Trains")
 
                     // Converting received data to JSON 
                     .then(response => response.json())
