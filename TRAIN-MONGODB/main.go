@@ -114,7 +114,6 @@ func getLimitTrain(w http.ResponseWriter, r *http.Request) {
 		pageint = 0
 	}
 	findOptions.SetSkip(int64(pageint) * 10) // set limit for record
-	// findOptions.SetSort(map[string]int{"when": -1}) // reverse order by `when`
 	collection := client.Database(databaseName).Collection(collectionName)
 	cursor, err := collection.Find(context.TODO(), bson.D{{}}, findOptions)
 	if err != nil {
