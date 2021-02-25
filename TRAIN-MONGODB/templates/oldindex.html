@@ -1,28 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
 
     <title>INDEX</title>
-    <style>
-        td,
-        th {
-            text-align: center;
-            background-color: white;
-        }
+   <style>
+       td ,th {
+           text-align: center;
+           background-color: white;
+       }
 
-        body {
+       body {
             background: #76b852;
-        }
-    </style>
+       }
+   </style>
 </head>
-
 <body>
     <div class="container">
         <h1 style="text-align: center;">Trains</h1>
@@ -30,15 +28,16 @@
         <div style="background-color: white;padding:50px;">
             <table id="trains" class="table shadow-lg" border="1"></table>
         </div>
-        <br>
-        <button type="button" id="b1" class="btn btn-info">PREV</button>
-        <button type="button" id="b2" class="btn btn-info">NEXT</button>
+      
+        <button type="button" class="btn btn-info">PREV</button>
+        <button type="button" class="btn btn-info">NEXT</button>
 
     </div>
-    <script>
-        $(document).ready(function () {
-            function commonapi(counter) {
-                fetch("http://localhost:8080/LimitTrain?page=" + counter)
+        <script>
+            $(document).ready(function () {
+
+
+                      fetch("http://localhost:8080/LimitTrain?page=0")
 
                     // Converting received data to JSON 
                     .then(response => response.json())
@@ -61,28 +60,16 @@
                         });
 
                         // Display result 
-                        li += " </tbody>"
+                        li+=" </tbody>"
                         document.getElementById("trains").innerHTML = li;
-
-                    });
-            }
-          
-            var counter = 0
-            commonapi(counter)
-            $("#b1").click(function () {
-                counter--
-                commonapi(counter)
+                         $('#trains').dataTable();
+                    }); 
+                    
+                     
             });
 
 
-            $("#b2").click(function () {
-                counter++
-                commonapi(counter)
-            });
-
-             });
-    </script>
-
+        </script>
+    
 </body>
-
 </html>
