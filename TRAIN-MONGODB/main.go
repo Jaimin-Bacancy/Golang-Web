@@ -9,6 +9,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 	"time"
 
 	"github.com/joho/godotenv"
@@ -18,6 +19,7 @@ import (
 )
 
 type Train struct {
+	INDEX  string `json:"index"`
 	NO     string `json:"no"`
 	NAME   string `json:"name"`
 	STARTS string `json:"starts"`
@@ -96,6 +98,41 @@ func getallTrains(w http.ResponseWriter, r *http.Request) {
 	w.Write(bytedata)
 }
 
+func getLimitTrain(w http.ResponseWriter, r *http.Request) {
+	page := r.URL.Query().Get("page")
+	pageint, err := strconv.Atoi(page)
+	if err != nil {
+		panic(err)
+	}
+	client := connection()
+	defer closedatabase()
+	databaseName := os.Getenv("DATABASE_NAME")
+	collectionName := os.Getenv("COLLECTION_NAME")
+	findOptions := options.Find() // build a `findOptions`
+	findOptions.SetLimit(10)
+	if pageint < 0 {
+		pageint = 0
+	}
+	findOptions.SetSkip(int64(pageint) * 10) // set limit for record
+	// findOptions.SetSort(map[string]int{"when": -1}) // reverse order by `when`
+	collection := client.Database(databaseName).Collection(collectionName)
+	cursor, err := collection.Find(context.TODO(), bson.D{{}}, findOptions)
+	if err != nil {
+		log.Fatal(err)
+	}
+	var trains []Train
+	if err = cursor.All(context.TODO(), &trains); err != nil {
+		log.Fatal(err)
+	}
+	bytedata, err := json.MarshalIndent(trains, "", " ")
+
+	if err != nil {
+		log.Fatal(err)
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(bytedata)
+}
+
 func readCsv(filename string) ([][]string, error) {
 
 	// Open CSV file
@@ -125,22 +162,25 @@ func insertToDatabase() {
 	collection := getColletion(client, "traindb", "trains")
 
 	limit := 10
+	rows = rows[1:]
 	channel := make(chan int, limit)
 	for _, record := range rows {
 		var train Train
+		train.INDEX = record[0]
+		train.NO = record[1]
+		train.NAME = record[2]
+		train.STARTS = record[3]
+		train.ENDS = record[4]
 		channel <- 1
-		go func(train *Train, record *[]string) {
-			train.NO = (*record)[1]
-			train.NAME = (*record)[2]
-			train.STARTS = (*record)[3]
-			train.ENDS = (*record)[4]
-			insertResult, err := collection.InsertOne(context.TODO(), train)
+		go func(trainptr *Train) {
+
+			insertResult, err := collection.InsertOne(context.TODO(), trainptr)
 			fmt.Println("Inserted a single document: ", insertResult.InsertedID)
 			if err != nil {
 				log.Fatal(err)
 			}
 			<-channel
-		}(&train, &record)
+		}(&train)
 
 	}
 
@@ -163,9 +203,10 @@ func main() {
 	fs := http.StripPrefix("/templates/", http.FileServer(http.Dir("./templates")))
 	http.Handle("/templates/", fs)
 	http.HandleFunc("/Trains", getallTrains)
+	http.HandleFunc("/LimitTrain", getLimitTrain)
 	fmt.Println("server started at http://localhost:8080")
-
-	err := http.ListenAndServe(":8080", nil)
+	port := os.Getenv("SERVER_PORT")
+	err := http.ListenAndServe(port, nil)
 	if err != nil {
 		panic(err)
 	}
