@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
+    <title>INDEX</title>
+    <style>
+        td,
+        th {
+            text-align: center;
+            background-color: white;
+        }
+
+        body {
+            background: #76b852;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        
+        <h1 style="text-align: center;">Trains</h1>
+        <br>
+        <div style="background-color: white;padding:50px;">
+        <input type="text" id="myInput" class="form-control" onkeyup="search()" placeholder="Search for train names.." title="Type in a name" />
+            <br>
+        <div id="pageno"></div>
+            <table id="trains" class="table shadow-lg" border="1"></table>
+       
+        <br>
+        <button type="button" id="b1" class="btn btn-info">PREV</button>
+        <button type="button" id="b2" class="btn btn-info">NEXT</button>
+            </div>
+    </div>
+    <script>
+
+            function search() {
+                    var input, filter, table, tr, td, i, txtValue;
+                    input = document.getElementById("myInput");
+                    filter = input.value.toUpperCase();
+                    table = document.getElementById("trains");
+                    tr = table.getElementsByTagName("tr");
+
+                    // Loop through all table rows, and hide those who don't match the search query
+                    for (i = 0; i < tr.length; i++) {
+                        td = tr[i].getElementsByTagName("td")[2];
+                        if (td) {
+                            txtValue = td.textContent || td.innerText;
+                            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                                tr[i].style.display = "";
+                            } else {
+                                tr[i].style.display = "none";
+                            }
+                        }
+                    }
+                }
+            
+        $(document).ready(function () {
+
+            
+
+            function commonapi(counter) {
+                if (counter == 0) {
+                    $("#pageno").html("<h3>PAGE NO:0</h3>");
+                }
+                fetch("http://localhost:8080/LimitTrain?page=" + counter)
+
+                    // Converting received data to JSON 
+                    .then(response => response.json())
+                    .then(json => {
+
+                        // Create a variable to store HTML 
+                        let li = `<thead class="thead-dark"><tr><th>#</th><th>NO</th><th>NAME</th><th>STARTS</th><th>ENDS</th></tr>  </thead> <tbody>`;
+
+                        // Loop through each data and add a table row 
+                        var count = 0
+                        json.forEach(train => {
+                            count++
+                            li += `<tr>
+                <td>${count}</td> 
+                <td>${train.no} </td> 
+                <td>${train.name}</td>          
+                 <td>${train.starts}</td>         
+                  <td>${train.ends}</td>         
+            </tr>`;
+                        });
+
+                        // Display result 
+                        li += " </tbody>"
+                        document.getElementById("trains").innerHTML = li;
+
+                    });
+            }
+
+            var counter = 0
+            commonapi(counter)
+            $("#b1").click(function () {
+                counter--
+                if (counter < 0) {
+                    $("#pageno").html("<h3>PAGE NO:0</h3>");
+                } else {
+                    $("#pageno").html("<h3>PAGE NO:" + counter + "</h3>");
+                }
+                commonapi(counter)
+            });
+
+
+            $("#b2").click(function () {
+                counter++
+                $("#pageno").html("<h3>PAGE NO:" + counter + "</h3>");
+                commonapi(counter)
+            });
+
+        });
+    </script>
+
+</body>
+
+</html>
