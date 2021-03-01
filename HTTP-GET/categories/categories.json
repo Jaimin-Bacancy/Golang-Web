@@ -2,7 +2,7 @@
 "code": 200,
 "meta": {
 "pagination": {
-"total": 17,
+"total": 14,
 "pages": 1,
 "page": 1,
 "limit": 20
@@ -11,104 +11,86 @@
 "data": [
 {
 "id": 1,
-"name": "Electronics \u0026 Computers",
-"description": "Capto thema nisi cresco constans ager.",
+"name": "Toys",
+"description": "Coaegresco aequitas capio utrum tamdiu doloremque consectetur.",
 "status": true
 },
 {
 "id": 2,
-"name": "Books",
-"description": "Corroboro ulciscor eligendi aveho comburo aperiam.",
+"name": "Games",
+"description": "Cogito terminatio vae textilis vester aut vinum collum umbra.",
 "status": true
 },
 {
 "id": 3,
-"name": "Beauty, Music \u0026 Games",
-"description": "Cibo sufficio ventito et vox tribuo eligendi torrens.",
+"name": "Outdoors, Beauty \u0026 Music",
+"description": "Spoliatio baiulus sustineo absum sto quisquam adsum sumptus bestia confugo.",
 "status": true
 },
 {
 "id": 4,
-"name": "Baby \u0026 Games",
-"description": "Cuius quia contigo sol nobis carpo attollo circumvenio ars dolores auxilium.",
+"name": "Outdoors \u0026 Home",
+"description": "Considero deputo suspendo crastinus bibo tergo vester bellicus.",
 "status": true
 },
 {
 "id": 5,
-"name": "Movies \u0026 Industrial",
-"description": "Stella confido amitto cum caritas.",
+"name": "Automotive \u0026 Garden",
+"description": "Subvenio voluntarius viriliter chirographum attollo vulgo.",
 "status": true
 },
 {
 "id": 6,
-"name": "Grocery, Beauty \u0026 Home",
-"description": "Undique valens tam spectaculum solutio velit usitas curia.",
+"name": "Baby \u0026 Health",
+"description": "Colo ducimus non victus validus victoria inventore.",
 "status": true
 },
 {
 "id": 7,
-"name": "Movies",
-"description": "Truculenter defetiscor corrumpo tepesco urbanus celebrer conicio trado quibusdam.",
+"name": "Industrial",
+"description": "Complectus concido timidus dolores ventosus tui tollo nulla sumo recusandae harum.",
 "status": true
 },
 {
 "id": 8,
-"name": "Outdoors \u0026 Tools",
-"description": "Ulciscor vos tristis neque bos victoria.",
+"name": "Movies \u0026 Computers",
+"description": "Animus somniculosus aequitas qui nihil solutio tonsor currus.",
 "status": true
 },
 {
 "id": 9,
-"name": "Shoes, Books \u0026 Electronics",
-"description": "Casus cibo calamitas temporibus ut crastinus aspicio.",
+"name": "Games \u0026 Sports",
+"description": "Tubineus arx ambulo damno damnatio adinventitias xiphias copiose cometes benevolentia denuo.",
 "status": true
 },
 {
 "id": 10,
-"name": "Music, Electronics \u0026 Home",
-"description": "Universe assumenda summopere qui damnatio cum voluptatem cruentus torqueo quos.",
+"name": "Sports \u0026 Shoes",
+"description": "Soleo vobis voluptas dens crustulum caritas decens colligo.",
 "status": true
 },
 {
 "id": 11,
-"name": "Shoes",
-"description": "Acidus et maxime alter decumbo totam apud neque concido thesaurus.",
+"name": "Movies",
+"description": "Tener trucido templum utique velit.",
 "status": true
 },
 {
 "id": 12,
-"name": "Electronics",
-"description": "Valde sed vulnero audax decimus ut quis denego sulum natus avoco.",
+"name": "Industrial, Kids \u0026 Games",
+"description": "Valetudo in abundans ad benevolentia vigilo colloco desidero speculum commodi confugo.",
 "status": true
 },
 {
 "id": 13,
-"name": "Grocery \u0026 Garden",
-"description": "Amicitia adfectus patria aranea et cedo demitto conservo.",
+"name": "Tools",
+"description": "Agnitio succedo eos et uberrime rerum voluptas valens.",
 "status": true
 },
 {
 "id": 14,
-"name": "Jewelry, Beauty \u0026 Baby",
-"description": "Curo celo cupiditas quo utpote compono amissio deleo enim charisma.",
-"status": true
-},
-{
-"id": 15,
-"name": "Baby \u0026 Automotive",
-"description": "Adstringo paulatim eos suscipit dedico arcus summa suasoria sit derideo sono.",
-"status": true
-},
-{
-"id": 16,
-"name": "Tools",
-"description": "Aspernatur acsi subvenio dapifer decimus tamdiu venio aer.",
-"status": true
-},
-{
-"id": 17,
-"name": "Automotive",
-"description": "Cervus decerno socius ad voluptatem at caritas ullam clementia.",
+"name": "Baby, Garden \u0026 Tools",
+"description": "Denego tenetur torqueo calculus suadeo consequuntur vilitas aiunt tandem voluptas.",
 "status": true
 }
 ]
