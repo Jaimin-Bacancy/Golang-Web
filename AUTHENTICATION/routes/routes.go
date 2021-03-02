@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 	"package/controller"
+	"package/middleware"
 
 	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
@@ -32,9 +33,9 @@ func InitializeRoute() {
 	router.HandleFunc("/signup", controller.SingUp).Methods("POST")
 	router.HandleFunc("/signin", controller.SignIn).Methods("POST")
 	router.HandleFunc("/", controller.Index).Methods("GET")
-	router.HandleFunc("/admin", controller.AdminIndex).Methods("GET")
-	router.HandleFunc("/superadmin", controller.SuperAdminIndex).Methods("GET")
-	router.HandleFunc("/user", controller.UserIndex).Methods("GET")
+	router.HandleFunc("/admin", middleware.IsAuthorizedAdmin(controller.AdminIndex)).Methods("GET")
+	router.HandleFunc("/superadmin", middleware.IsAuthorizedSuperAdmin(controller.SuperAdminIndex)).Methods("GET")
+	router.HandleFunc("/user", middleware.IsAuthorizedUser(controller.UserIndex)).Methods("GET")
 
 }
 

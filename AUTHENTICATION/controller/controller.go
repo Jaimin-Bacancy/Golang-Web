@@ -100,7 +100,7 @@ func SignIn(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	validToken, err := GenerateJWT(authuser.Email)
+	validToken, err := GenerateJWT(authuser.Email, authuser.Role)
 	var token model.Token
 	token.Email = authuser.Email
 	token.TokenString = validToken
@@ -111,12 +111,13 @@ func SignIn(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(tokendata))
 }
 
-func GenerateJWT(email string) (string, error) {
+func GenerateJWT(email, role string) (string, error) {
 	token := jwt.New(jwt.SigningMethodHS256)
 	claims := token.Claims.(jwt.MapClaims)
 
 	claims["authorized"] = true
 	claims["email"] = email
+	claims["role"] = role
 	claims["exp"] = time.Now().Add(time.Minute * 30).Unix()
 
 	tokenString, err := token.SignedString(mySigningKey)
@@ -130,7 +131,7 @@ func GenerateJWT(email string) (string, error) {
 }
 
 func Index(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("PUBLIC INDEX PAGE"))
+	w.Write([]byte("HOME PUBLIC INDEX PAGE"))
 }
 
 func AdminIndex(w http.ResponseWriter, r *http.Request) {
