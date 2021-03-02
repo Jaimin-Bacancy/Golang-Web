@@ -20,18 +20,18 @@ import (
 )
 
 type Train struct {
-	TrainNo                string `json:"trainno"`
-	TrainName              string `json:"trainname"`
-	SEQ                    string `json:"trainseq"`
-	StationCode            string `json:"stationcode"`
-	StationName            string `json:"stationname"`
-	ArivalTime             string `json:"arrivaltime"`
-	DepartureTime          string `json:"departuretime"`
-	Distance               string `json:"distance"`
-	SourceStation          string `json:"sourcestation"`
-	SourceStationname      string `json:"sourcestationname"`
-	DestinationStation     string `json:"destinationstation"`
-	DestinationStationName string `json:"destinationsationname"`
+	TrainNo                string `bson:"trainno"`
+	TrainName              string `bson:"trainname"`
+	SEQ                    string `bson:"trainseq"`
+	StationCode            string `bson:"stationcode"`
+	StationName            string `bson:"stationname"`
+	ArivalTime             string `bson:"arrivaltime"`
+	DepartureTime          string `bson:"departuretime"`
+	Distance               string `bson:"distance"`
+	SourceStation          string `bson:"sourcestation"`
+	SourceStationname      string `bson:"sourcestationname"`
+	DestinationStation     string `bson:"destinationstation"`
+	DestinationStationName string `bson:"destinationsationname"`
 }
 
 func init() {
@@ -173,7 +173,7 @@ func searchTrain(w http.ResponseWriter, r *http.Request) {
 	if err = cursor.All(context.TODO(), &sourcestationtrains); err != nil {
 		log.Fatal(err)
 	}
-
+	fmt.Println(sourcestationtrains)
 	cursor, err = collection.Find(context.TODO(), bson.M{"stationcode": destinationstation})
 	if err != nil {
 		log.Fatal(err)
@@ -183,6 +183,7 @@ func searchTrain(w http.ResponseWriter, r *http.Request) {
 	if err = cursor.All(context.TODO(), &destinationtrains); err != nil {
 		log.Fatal(err)
 	}
+	fmt.Println(destinationtrains)
 	count := 0
 	var finaltrains []Train
 	for _, sourcetrain := range sourcestationtrains {
@@ -198,6 +199,62 @@ func searchTrain(w http.ResponseWriter, r *http.Request) {
 	}
 	fmt.Println(count)
 	bytedata, err := json.MarshalIndent(finaltrains, "", " ")
+	if err != nil {
+		log.Fatal(err)
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(bytedata)
+}
+
+func filterTrain(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	stationname := r.URL.Query().Get("stationname")
+	stationcode := r.URL.Query().Get("stationcode")
+	trainno := r.URL.Query().Get("trainno")
+	trainname := r.URL.Query().Get("trainname")
+	arrivaltime := r.URL.Query().Get("arrivaltime")
+	departuretime := r.URL.Query().Get("departuretime")
+
+	filter := bson.D{}
+
+	if stationname != "" {
+		filter = append(filter, bson.E{"stationname", stationname})
+	}
+
+	if stationcode != "" {
+		filter = append(filter, bson.E{"stationcode", stationcode})
+	}
+
+	if trainno != "" {
+		filter = append(filter, bson.E{"trainno", trainno})
+	}
+
+	if trainname != "" {
+		filter = append(filter, bson.E{"trainname", trainname})
+	}
+
+	if arrivaltime != "" {
+		filter = append(filter, bson.E{"arrivaltime", arrivaltime})
+	}
+
+	if departuretime != "" {
+		filter = append(filter, bson.E{"departuretime", departuretime})
+	}
+
+	fmt.Println(filter)
+	client := connection()
+	defer closedatabase()
+	databaseName := os.Getenv("DATABASE_NAME")
+	collectionName := os.Getenv("COLLECTION_NAME")
+	collection := client.Database(databaseName).Collection(collectionName)
+	cursor, err := collection.Find(context.TODO(), filter)
+	var filtertrains []Train
+	if err = cursor.All(context.TODO(), &filtertrains); err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println(filtertrains)
+	bytedata, err := json.MarshalIndent(filtertrains, "", " ")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -267,7 +324,7 @@ func main() {
 	http.Handle("/templates/", fs)
 	http.HandleFunc("/LimitTrain", getLimitTrain)
 	http.HandleFunc("/SearchTrain", searchTrain)
-
+	http.HandleFunc("/FilterTrain", filterTrain)
 	fmt.Println("server started at http://localhost" + os.Getenv("SERVER_PORT"))
 	port := os.Getenv("SERVER_PORT")
 	err := http.ListenAndServe(port, nil)
