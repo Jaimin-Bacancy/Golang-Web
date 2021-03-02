@@ -9,6 +9,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"sort"
 	"strconv"
 	"strings"
 	"time"
@@ -32,6 +33,7 @@ type Train struct {
 	SourceStationname      string `bson:"sourcestationname"`
 	DestinationStation     string `bson:"destinationstation"`
 	DestinationStationName string `bson:"destinationsationname"`
+	DifferenceTime         int
 }
 
 func init() {
@@ -193,10 +195,16 @@ func searchTrain(w http.ResponseWriter, r *http.Request) {
 			if sourcetrain.TrainNo == desttrain.TrainNo && seq1 < seq2 {
 				count++
 				fmt.Println(sourcetrain)
+				sourcetrain.DifferenceTime = arrivalTimeDiff(sourcetrain.ArivalTime, desttrain.ArivalTime)
 				finaltrains = append(finaltrains, sourcetrain)
 			}
 		}
 	}
+
+	sort.Slice(finaltrains, func(i, j int) bool {
+		return finaltrains[i].DifferenceTime < finaltrains[j].DifferenceTime
+	})
+
 	fmt.Println(count)
 	bytedata, err := json.MarshalIndent(finaltrains, "", " ")
 	if err != nil {
@@ -204,6 +212,17 @@ func searchTrain(w http.ResponseWriter, r *http.Request) {
 	}
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(bytedata)
+}
+
+func arrivalTimeDiff(sourcetime, destinationtime string) int {
+	sourcetime = strings.Replace(sourcetime, ":", "", -1)
+	destinationtime = strings.Replace(destinationtime, ":", "", -1)
+	t1, _ := strconv.Atoi(sourcetime)
+	t2, _ := strconv.Atoi(destinationtime)
+	if t1 > t2 {
+		return t1 - t2
+	}
+	return t2 - t1
 }
 
 func filterTrain(w http.ResponseWriter, r *http.Request) {
