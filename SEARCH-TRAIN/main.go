@@ -23,7 +23,7 @@ type Train struct {
 	TrainNo                string `json:"trainno"`
 	TrainName              string `json:"trainname"`
 	SEQ                    string `json:"trainseq"`
-	Code                   string `json:"traincode"`
+	StationCode            string `json:"stationcode"`
 	StationName            string `json:"stationname"`
 	ArivalTime             string `json:"arrivaltime"`
 	DepartureTime          string `json:"departuretime"`
@@ -161,14 +161,14 @@ func readCsv(filename string) ([][]string, error) {
 func searchTrain(w http.ResponseWriter, r *http.Request) {
 
 	sourcestation := strings.ToUpper(r.URL.Query().Get("sourcestation"))
-	destinationstation := strings.ToUpper(r.URL.Query().Get("destinatiostation"))
+	//destinationstation := strings.ToUpper(r.URL.Query().Get("destinatiostation"))
 	client := connection()
 	defer closedatabase()
 	databaseName := os.Getenv("DATABASE_NAME")
 	collectionName := os.Getenv("COLLECTION_NAME")
 
 	collection := client.Database(databaseName).Collection(collectionName)
-	cursor, err := collection.Find(context.TODO(), bson.M{"sourcestation": sourcestation, "destinationstation": destinationstation})
+	cursor, err := collection.Find(context.TODO(), bson.M{"stationcode": sourcestation})
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -202,7 +202,7 @@ func insertToDatabase() {
 		train.TrainNo = record[0]
 		train.TrainName = record[1]
 		train.SEQ = record[2]
-		train.Code = record[3]
+		train.StationCode = record[3]
 		train.StationName = record[4]
 		train.ArivalTime = record[5]
 		train.DepartureTime = record[6]
