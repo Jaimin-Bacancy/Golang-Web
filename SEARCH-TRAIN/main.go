@@ -80,32 +80,6 @@ func getColletion(client *mongo.Client, dbname string, colletionname string) *mo
 	return collection
 }
 
-func getallTrains(w http.ResponseWriter, r *http.Request) {
-
-	client := connection()
-	defer closedatabase()
-	databaseName := os.Getenv("DATABASE_NAME")
-	collectionName := os.Getenv("COLLECTION_NAME")
-
-	collection := client.Database(databaseName).Collection(collectionName)
-	cursor, err := collection.Find(context.TODO(), bson.D{{}})
-
-	if err != nil {
-		log.Fatal(err)
-	}
-	var trains []Train
-	if err = cursor.All(context.TODO(), &trains); err != nil {
-		log.Fatal(err)
-	}
-	bytedata, err := json.MarshalIndent(trains, "", " ")
-
-	if err != nil {
-		log.Fatal(err)
-	}
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(bytedata)
-}
-
 func getLimitTrain(w http.ResponseWriter, r *http.Request) {
 	page := r.URL.Query().Get("page")
 	pageint, err := strconv.Atoi(page)
@@ -158,10 +132,32 @@ func readCsv(filename string) ([][]string, error) {
 	return rows, nil
 }
 
+func getallTrains() []Train {
+
+	client := connection()
+	defer closedatabase()
+	databaseName := os.Getenv("DATABASE_NAME")
+	collectionName := os.Getenv("COLLECTION_NAME")
+
+	collection := client.Database(databaseName).Collection(collectionName)
+	cursor, err := collection.Find(context.TODO(), bson.D{{}})
+
+	if err != nil {
+		log.Fatal(err)
+	}
+	var trains []Train
+	if err = cursor.All(context.TODO(), &trains); err != nil {
+		log.Fatal(err)
+	}
+	return trains
+
+}
+
 func searchTrain(w http.ResponseWriter, r *http.Request) {
 
 	sourcestation := strings.ToUpper(r.URL.Query().Get("sourcestation"))
-	//destinationstation := strings.ToUpper(r.URL.Query().Get("destinatiostation"))
+	destinationstation := strings.ToUpper(r.URL.Query().Get("destinatiostation"))
+	fmt.Println(destinationstation)
 	client := connection()
 	defer closedatabase()
 	databaseName := os.Getenv("DATABASE_NAME")
@@ -172,11 +168,36 @@ func searchTrain(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	var trains []Train
-	if err = cursor.All(context.TODO(), &trains); err != nil {
+
+	var sourcestationtrains []Train
+	if err = cursor.All(context.TODO(), &sourcestationtrains); err != nil {
 		log.Fatal(err)
 	}
-	bytedata, err := json.MarshalIndent(trains, "", " ")
+
+	cursor, err = collection.Find(context.TODO(), bson.M{"stationcode": destinationstation})
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	var destinationtrains []Train
+	if err = cursor.All(context.TODO(), &destinationtrains); err != nil {
+		log.Fatal(err)
+	}
+	count := 0
+	var finaltrains []Train
+	for _, sourcetrain := range sourcestationtrains {
+		for _, desttrain := range destinationtrains {
+			seq1, _ := strconv.Atoi(sourcetrain.SEQ)
+			seq2, _ := strconv.Atoi(desttrain.SEQ)
+			if sourcetrain.TrainNo == desttrain.TrainNo && seq1 < seq2 {
+				count++
+				fmt.Println(sourcetrain)
+				finaltrains = append(finaltrains, sourcetrain)
+			}
+		}
+	}
+	fmt.Println(count)
+	bytedata, err := json.MarshalIndent(finaltrains, "", " ")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -244,7 +265,6 @@ func main() {
 	fmt.Println(time.Since(start))
 	fs := http.StripPrefix("/templates/", http.FileServer(http.Dir("./templates")))
 	http.Handle("/templates/", fs)
-	http.HandleFunc("/Trains", getallTrains)
 	http.HandleFunc("/LimitTrain", getLimitTrain)
 	http.HandleFunc("/SearchTrain", searchTrain)
 
