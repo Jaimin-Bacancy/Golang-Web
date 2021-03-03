@@ -34,6 +34,7 @@ func InitializeRoute() {
 	router.HandleFunc("/signin", controller.SignIn).Methods("POST")
 	router.HandleFunc("/", controller.Index).Methods("GET")
 	router.HandleFunc("/admin", middleware.IsAuthorizedAdmin(controller.AdminIndex)).Methods("GET")
+	router.HandleFunc("/admin/display", middleware.IsAuthorizedAdmin(controller.AdminDisplay)).Methods("GET")
 	router.HandleFunc("/superadmin", middleware.IsAuthorizedSuperAdmin(controller.SuperAdminIndex)).Methods("GET")
 	router.HandleFunc("/user", middleware.IsAuthorizedUser(controller.UserIndex)).Methods("GET")
 

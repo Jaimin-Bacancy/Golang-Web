@@ -2,13 +2,12 @@ package utility
 
 import (
 	"fmt"
+	"os"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
 	"golang.org/x/crypto/bcrypt"
 )
-
-var mySigningKey = []byte("secretkeyjwt")
 
 func GeneratehashPassword(password string) (string, error) {
 	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
@@ -21,6 +20,8 @@ func CheckPasswordHash(password, hash string) bool {
 }
 
 func GenerateJWT(email, role string) (string, error) {
+	secretkey := os.Getenv("SECRET_KEY")
+	var mySigningKey = []byte(secretkey)
 	token := jwt.New(jwt.SigningMethodHS256)
 	claims := token.Claims.(jwt.MapClaims)
 

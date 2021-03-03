@@ -111,6 +111,10 @@ func AdminIndex(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("ADMIN INDEX PAGE"))
 }
 
+func AdminDisplay(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte("ADMIN DISPLAY PAGE"))
+}
+
 func SuperAdminIndex(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("SuperAdminIndex INDEX PAGE"))
 }
