@@ -29,7 +29,6 @@ func IsAuthorizedAdmin(handler http.HandlerFunc) http.HandlerFunc {
 		}
 
 		if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
-			fmt.Println(claims["role"])
 			if claims["role"] == "admin" {
 				handler.ServeHTTP(w, r)
 				return
