@@ -44,6 +44,7 @@ func SingUp(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatalln("error in password hash")
 	}
+
 	connection.Create(&user)
 	bytedata, err := json.MarshalIndent(user, "", "  ")
 	if err != nil {

@@ -27,13 +27,13 @@ func GetDatabase() *gorm.DB {
 	return connection
 }
 
-//Closedatabase is...
+//Closedatabase is close database
 func Closedatabase(connection *gorm.DB) {
 	sqldb := connection.DB()
 	sqldb.Close()
 }
 
-//Initialmigration is....
+//Initialmigration is migrate model to table
 func Initialmigration() {
 	connection := GetDatabase()
 	connection.AutoMigrate(&model.User{})
