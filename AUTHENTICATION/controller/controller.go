@@ -2,49 +2,45 @@ package controller
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"package/database"
 	"package/model"
-	"time"
-
-	"github.com/dgrijalva/jwt-go"
-	"golang.org/x/crypto/bcrypt"
+	"package/utility"
 )
 
-var mySigningKey = []byte("secretkeyjwt")
-
-func generatehashPassword(password string) (string, error) {
-	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
-	return string(bytes), err
-}
-
 func SingUp(w http.ResponseWriter, r *http.Request) {
+
 	bodydata, err := ioutil.ReadAll(r.Body)
+
 	if err != nil {
 		log.Fatalln("error in body reading")
 	}
+
 	var user model.User
 	err = json.Unmarshal(bodydata, &user)
+	if err != nil {
+		log.Fatalln("error in unmarshal")
+	}
+
 	connection := database.GetDatabase()
 	defer database.Closedatabase(connection)
+
 	var checkuser model.User
 	connection.Where("email = 	?", user.Email).First(&checkuser)
+
+	//check email is alredy register
 	if checkuser.Email != "" {
 		var Error model.Error
 		Error.Code = "1001"
 		Error.Message = "Email already use"
-		bytedata, err := json.MarshalIndent(Error, "", "  ")
-		if err != nil {
-			log.Fatalln("error in marshal")
-		}
 		w.Header().Set("Content-Type", "application/json")
-		w.Write(bytedata)
+		json.NewEncoder(w).Encode(Error)
 		return
 	}
-	user.Password, err = generatehashPassword(user.Password)
+
+	user.Password, err = utility.GeneratehashPassword(user.Password)
 	if err != nil {
 		log.Fatalln("error in password hash")
 	}
@@ -55,11 +51,6 @@ func SingUp(w http.ResponseWriter, r *http.Request) {
 	}
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(bytedata)
-}
-
-func CheckPasswordHash(password, hash string) bool {
-	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
-	return err == nil
 }
 
 func SignIn(w http.ResponseWriter, r *http.Request) {
@@ -87,7 +78,7 @@ func SignIn(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	check := CheckPasswordHash(authdetails.Password, authuser.Password)
+	check := utility.CheckPasswordHash(authdetails.Password, authuser.Password)
 	if !check {
 		var Error model.Error
 		Error.Code = "1002"
@@ -100,7 +91,7 @@ func SignIn(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	validToken, err := GenerateJWT(authuser.Email, authuser.Role)
+	validToken, err := utility.GenerateJWT(authuser.Email, authuser.Role)
 	var token model.Token
 	token.Email = authuser.Email
 	token.TokenString = validToken
@@ -109,25 +100,6 @@ func SignIn(w http.ResponseWriter, r *http.Request) {
 	}
 	tokendata, err := json.MarshalIndent(token, "", "  ")
 	w.Write([]byte(tokendata))
-}
-
-func GenerateJWT(email, role string) (string, error) {
-	token := jwt.New(jwt.SigningMethodHS256)
-	claims := token.Claims.(jwt.MapClaims)
-
-	claims["authorized"] = true
-	claims["email"] = email
-	claims["role"] = role
-	claims["exp"] = time.Now().Add(time.Minute * 30).Unix()
-
-	tokenString, err := token.SignedString(mySigningKey)
-
-	if err != nil {
-		fmt.Errorf("Something Went Wrong: %s", err.Error())
-		return "", err
-	}
-
-	return tokenString, nil
 }
 
 func Index(w http.ResponseWriter, r *http.Request) {
