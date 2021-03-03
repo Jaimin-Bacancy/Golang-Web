@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"os"
 	"package/model"
 
 	"github.com/jinzhu/gorm"
@@ -14,7 +15,9 @@ var db *sql.DB
 
 //GetDatabase is return db connection
 func GetDatabase() *gorm.DB {
-	connection, err := gorm.Open("postgres", "postgres://postgres:1312@localhost/userdb?sslmode=disable")
+	databaseurl := os.Getenv("DATABASE_URL")
+	databasename := os.Getenv("DATABASE_NAME")
+	connection, err := gorm.Open(databasename, databaseurl)
 	if err != nil {
 		log.Fatalln("wrong database url")
 	}

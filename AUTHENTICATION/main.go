@@ -6,8 +6,8 @@ import (
 )
 
 func main() {
-	database.Initialmigration()
 	routes.LoadEnvFile()
+	database.Initialmigration()
 	routes.CreateRouter()
 	routes.InitializeRoute()
 	routes.ServerStart()
