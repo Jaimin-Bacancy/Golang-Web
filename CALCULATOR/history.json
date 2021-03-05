@@ -1,38 +1,104 @@
 [
  {
-  "input1": "8",
-  "input2": "8",
+  "input1": "7",
+  "input2": "9",
   "operator": "*",
-  "result": "64"
+  "result": "63"
  },
  {
-  "input1": "64",
+  "input1": "63",
   "input2": "10",
   "operator": "*",
-  "result": "640"
+  "result": "630"
  },
  {
-  "input1": "640",
-  "input2": "8",
-  "operator": "/",
-  "result": "80"
- },
- {
-  "input1": "80",
-  "input2": "10",
+  "input1": "630",
+  "input2": "7",
   "operator": "+",
-  "result": "90"
+  "result": "637"
  },
  {
-  "input1": "5",
+  "input1": "637",
   "input2": "5",
+  "operator": "/",
+  "result": "127.4"
+ },
+ {
+  "input1": "127.4",
+  "input2": "999",
+  "operator": "-",
+  "result": "-871.6"
+ },
+ {
+  "input1": "8",
+  "input2": "9",
+  "operator": "+",
+  "result": "17"
+ },
+ {
+  "input1": "1",
+  "input2": "9",
+  "operator": "/",
+  "result": "0.1111111111111111"
+ },
+ {
+  "input1": "0.1111111111111111",
+  "input2": "65",
   "operator": "*",
-  "result": "25"
+  "result": "7.222222222222221"
+ },
+ {
+  "input1": "7.222222222222221",
+  "input2": "899",
+  "operator": "/",
+  "result": "0.00803361759980225"
+ },
+ {
+  "input1": "0",
+  "input2": "3",
+  "operator": "=",
+  "result": "0"
+ },
+ {
+  "input1": "0",
+  "input2": "9",
+  "operator": "*",
+  "result": "0"
+ },
+ {
+  "input1": "0",
+  "input2": "3",
+  "operator": "=",
+  "result": "0"
+ },
+ {
+  "input1": "0",
+  "input2": "9",
+  "operator": "*",
+  "result": "0"
+ },
+ {
+  "input1": "3",
+  "input2": "9",
+  "operator": "*",
+  "result": "27"
+ },
+ {
+  "input1": "27",
+  "input2": "8",
+  "operator": "+",
+  "result": "35"
+ },
+ {
+  "input1": "35",
+  "input2": "5",
+  "operator": "/",
+  "result": "7"
  },
  {
   "input1": "7",
-  "input2": "100",
-  "operator": "*",
-  "result": "700"
+  "input2": "3",
+  "operator": "/",
+  "result": "2.3333333333333335"
  }
 ]

@@ -16,17 +16,22 @@
     <!-- Your custom styles (optional) -->
     <link rel="stylesheet" href="/static/css/style.css">
     </head>
+    <style>
+        body{
+          background-color: lightgreen;
+        }
+    </style>
 <body>
       <div class="calculator card">
 
-    <input type="text" id="displayresult" class="calculator-screen z-depth-1" value="" disabled />
+    <input type="text" id="displayresult" class="calculator-screen z-depth-1" style="color: yellow;" value="" disabled />
 
-    <div class="calculator-keys">
+    <div class="calculator-keys" style="background-color: darkblue;">
 
-      <button type="button" class="operator btn btn-info" value="+">+</button>
-      <button type="button" class="operator btn btn-info" value="-">-</button>
-      <button type="button" class="operator btn btn-info" value="*">&times;</button>
-      <button type="button" class="operator btn btn-info" value="/">&divide;</button>
+      <button type="button" class="operator btn btn-info" value="+" style="color: black;">+</button>
+      <button type="button" class="operator btn btn-info" value="-" style="color: black;">-</button>
+      <button type="button" class="operator btn btn-info" value="*" style="color: black;">&times;</button>
+      <button type="button" class="operator btn btn-info" value="/" style="color: black;">&divide;</button>
 
       <button type="button" value="7" class="btn btn-light waves-effect">7</button>
       <button type="button" value="8" class="btn btn-light waves-effect">8</button>
