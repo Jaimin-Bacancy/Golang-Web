@@ -1,0 +1,76 @@
+<!doctype html>
+
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1,
+        shrink-to-fit=no">
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+  <style>
+    body {
+      background-color: lightblue;
+    }
+    button{
+      margin-right: 10px;
+    }
+  </style>
+</head>
+<div id=appEl></div>
+
+<script src="preact.dev.js"></script>
+
+<script>
+  var h = preact.h;
+
+  var app = {
+    name: "Hello World",
+    message: "Golang",
+    counter: 0,
+  }
+
+  function render() {
+
+    if (window.event) {
+      window.event.stopPropagation()
+    }
+
+    const increment = () => {
+      app.counter++
+      render()
+    }
+
+    const decrement = () => {
+      app.counter--
+      render()
+    }
+
+    const textchange = ()=> {
+     app.message=document.getElementById("name").value;
+      render()
+    }
+
+    const View = (app) => {
+      return h("div",{class:"container"},
+        h('h1', null, app.name),
+        h('h1', null, app.message),
+        h('h2', null, app.counter),
+        h('button',{class:"btn btn-primary" ,onclick: () => increment() }, "+"),
+        h('button', {class:"btn btn-primary", onclick: () => decrement() }, "-"),
+        h('br',null,""),
+        h('br',null,""),
+        h("div",{class:"col-md-4"},
+        h('input',{id:"name",class:"form-control",type:"text", placeholder:"enter text",onkeyup: () => textchange()} )
+       )
+      )
+    }
+
+
+
+    // this is the only thing that should be in render
+    preact.render(View(app), appEl, appEl.firstChild)
+  }
+
+  render();
+</script>

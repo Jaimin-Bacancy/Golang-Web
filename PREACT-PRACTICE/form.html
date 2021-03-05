@@ -1,0 +1,101 @@
+<!doctype html>
+
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1,
+        shrink-to-fit=no">
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+  <style>
+    body {
+      background-color: lightblue;
+    }
+    button{
+      margin-right: 10px;
+    }
+  </style>
+</head>
+<div id=appEl></div>
+
+<script src="preact.dev.js"></script>
+
+<script>
+  var h = preact.h;
+
+  var app = {
+    name:"",
+    email:"",
+    city:"",
+    mobile:"",
+  }
+
+  function render() {
+
+    if (window.event) {
+      window.event.stopPropagation()
+    }
+
+    const namechange = () => {
+        app.name = document.getElementById("name").value;
+        render() 
+    }
+
+    const emailchange = () => {
+        app.email = document.getElementById("email").value;
+        render() 
+    }
+
+
+    const citychange = () => {
+        app.city = document.getElementById("city").value;
+        render() 
+    }
+
+    const View = (app) => {
+        return (
+                    h("div",{class:"container"},
+                    h('br',null,""),
+                    h('br',null,""),
+                    h('br',null,""),
+                    h('br',null,""),
+                    h('br',null,""),
+                   
+                        h("div",{class:"col-md-5 col-md-offset-4"},
+                        h("h1",null,"User Form"),
+                        h('br',null,""),
+                        h("form",null,
+                            h("div",{class:"form-group"},
+                                h("label",null,"Name"),
+                                h("input",{class:"form-control",id:"name",type:"text",placeholder:"Enter Name",onkeyup:() => namechange()}),
+                            ),
+                            h("div",{class:"form-group"},
+                                h("label",null,"Email"),
+                                h("input",{class:"form-control",id:"email",type:"email",placeholder:"Enter Email",onkeyup:() => emailchange()}),
+                            ),
+                            h("div",{class:"form-group"},
+                                h("label",null,"City"),
+                                h("input",{class:"form-control",id:"city",type:"city",placeholder:"Enter City",onkeyup:() => citychange()}),
+                            ),
+                            h("button",{type:"submit",class:"btn btn-info btn-block", onclick: () => takevalue()},"SAVE"),
+                             h('br',null,""),
+                             h("h1",null,"User Information"),
+                             h('br',null,""),
+                             h("h3",null,"Name:"+" "+app.name),
+                             h("h3",null,"Email:"+" "+app.email),
+                             h("h3",null,"City:"+" "+app.city),
+                            )
+                        )                       
+                    )
+                )
+    }
+
+
+
+    // this is the only thing that should be in render
+    preact.render(View(app), appEl, appEl.firstChild)
+  }
+
+  render();
+</script>

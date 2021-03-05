@@ -29,6 +29,9 @@ func CreateRouter() {
 
 //InitializeRoute is add routes
 func InitializeRoute() {
+	fs := http.StripPrefix("/static/", http.FileServer(http.Dir("./static")))
+	router.PathPrefix("/static/").Handler(fs)
+	http.Handle("/static/", router)
 
 	router.HandleFunc("/signup", controller.SingUp).Methods("POST")
 	router.HandleFunc("/signin", controller.SignIn).Methods("POST")
