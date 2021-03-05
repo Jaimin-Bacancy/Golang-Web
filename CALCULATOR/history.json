@@ -100,5 +100,107 @@
   "input2": "3",
   "operator": "/",
   "result": "2.3333333333333335"
+ },
+ {
+  "input1": "1",
+  "input2": "2",
+  "operator": "+",
+  "result": "3"
+ },
+ {
+  "input1": "3",
+  "input2": "6",
+  "operator": "*",
+  "result": "18"
+ },
+ {
+  "input1": "18",
+  "input2": "6",
+  "operator": "=",
+  "result": "0"
+ },
+ {
+  "input1": "0",
+  "input2": "9",
+  "operator": "*",
+  "result": "0"
+ },
+ {
+  "input1": "6",
+  "input2": "9",
+  "operator": "*",
+  "result": "54"
+ },
+ {
+  "input1": "2",
+  "input2": "9",
+  "operator": "*",
+  "result": "18"
+ },
+ {
+  "input1": "18",
+  "input2": "2",
+  "operator": "/",
+  "result": "9"
+ },
+ {
+  "input1": "7",
+  "input2": "8",
+  "operator": "+",
+  "result": "15"
+ },
+ {
+  "input1": "15",
+  "input2": "2",
+  "operator": "*",
+  "result": "30"
+ },
+ {
+  "input1": "30",
+  "input2": "6",
+  "operator": "-",
+  "result": "24"
+ },
+ {
+  "input1": "24",
+  "input2": "2",
+  "operator": "/",
+  "result": "12"
+ },
+ {
+  "input1": "12",
+  "input2": "9",
+  "operator": "*",
+  "result": "108"
+ },
+ {
+  "input1": "108",
+  "input2": "109",
+  "operator": "-",
+  "result": "-1"
+ },
+ {
+  "input1": "-1",
+  "input2": "3",
+  "operator": "/",
+  "result": "-0.3333333333333333"
+ },
+ {
+  "input1": "55",
+  "input2": "9",
+  "operator": "*",
+  "result": "495"
+ },
+ {
+  "input1": "495",
+  "input2": "5",
+  "operator": "/",
+  "result": "99"
+ },
+ {
+  "input1": "99",
+  "input2": "7",
+  "operator": "/",
+  "result": "14.142857142857142"
  }
 ]
