@@ -220,5 +220,11 @@
   "input2": "6",
   "operator": "/",
   "result": "22.5"
+ },
+ {
+  "input1": "99",
+  "input2": "100",
+  "operator": "*",
+  "result": "9900"
  }
 ]

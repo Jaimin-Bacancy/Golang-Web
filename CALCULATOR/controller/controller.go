@@ -16,7 +16,7 @@ func saveHistory(calculator model.Calculator) {
 		fmt.Println(err)
 	}
 	var allcalculatorhistory []model.Calculator
-	_ = json.Unmarshal([]byte(historydata), &allcalculatorhistory)
+	_ = json.Unmarshal(historydata, &allcalculatorhistory)
 
 	allcalculatorhistory = append(allcalculatorhistory, calculator)
 	file, err := json.MarshalIndent(allcalculatorhistory, "", " ")
