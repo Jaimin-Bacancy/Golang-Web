@@ -43,21 +43,22 @@ func Operation(w http.ResponseWriter, r *http.Request) {
 		log.Fatal("error in string to int")
 	}
 
-	var ans float64
-	if calculator.Operation == "+" {
-		ans = float64(num1) + float64(num2)
-	} else if calculator.Operation == "-" {
-		ans = float64(num1) - float64(num2)
-	} else if calculator.Operation == "*" {
-		ans = float64(num1) * float64(num2)
-	} else if calculator.Operation == "/" {
-		ans = float64(num1) / float64(num2)
-	}
-
-	calculator.Result = fmt.Sprint(ans)
+	calculator.Result = calculation(num1, num2, calculator.Operation)
 	saveHistory(calculator)
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(calculator)
+}
 
-	return
+func calculation(num1, num2 float64, operation string) string {
+	var ans float64
+	if operation == "+" {
+		ans = float64(num1) + float64(num2)
+	} else if operation == "-" {
+		ans = float64(num1) - float64(num2)
+	} else if operation == "*" {
+		ans = float64(num1) * float64(num2)
+	} else if operation == "/" {
+		ans = float64(num1) / float64(num2)
+	}
+	return fmt.Sprint(ans)
 }
