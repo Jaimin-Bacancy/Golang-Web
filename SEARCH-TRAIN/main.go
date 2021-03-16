@@ -16,6 +16,7 @@ import (
 
 	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -311,10 +312,13 @@ func insertToDatabase() {
 		channel <- 1
 		go func(trainptr *Train) {
 
-			_, err := collection.InsertOne(context.TODO(), trainptr)
-			//insertResult, err := collection.InsertOne(context.TODO(), trainptr)
-
-			//fmt.Println("Inserted a single document: ", insertResult.InsertedID)
+			//, err := collection.InsertOne(context.TODO(), trainptr)
+			insertResult, err := collection.InsertOne(context.TODO(), trainptr)
+			// fmt.Println(insertResult)
+			var abc string = fmt.Sprint(insertResult.InsertedID.(primitive.ObjectID))
+			fmt.Println("Inserted a single document: ", abc)
+			abc = abc[10:34]
+			fmt.Println("Inserted a single document: ", abc)
 			if err != nil {
 				log.Fatal(err)
 			}

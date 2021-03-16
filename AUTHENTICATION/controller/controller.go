@@ -32,11 +32,10 @@ func SingUp(w http.ResponseWriter, r *http.Request) {
 
 	//check email is alredy register
 	if checkuser.Email != "" {
-		var Error model.Error
-		Error.Code = "1001"
-		Error.Message = "Email already use"
+		var err model.Error
+		err = utility.SetError(err, "Email already in use")
 		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(Error)
+		json.NewEncoder(w).Encode(err)
 		return
 	}
 
@@ -48,7 +47,11 @@ func SingUp(w http.ResponseWriter, r *http.Request) {
 	connection.Create(&user)
 	bytedata, err := json.MarshalIndent(user, "", "  ")
 	if err != nil {
-		log.Fatalln("error in marshal")
+		var err model.Error
+		err = utility.SetError(err, "Error in Marshaling")
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(err)
+		return
 	}
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(bytedata)
@@ -58,7 +61,11 @@ func SignIn(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	bodydata, err := ioutil.ReadAll(r.Body)
 	if err != nil {
-		log.Fatalln("error in body reading")
+		var err model.Error
+		err = utility.SetError(err, "Error in reading body")
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(err)
+		return
 	}
 	var authdetails model.Authentatication
 	err = json.Unmarshal(bodydata, &authdetails)
@@ -68,27 +75,19 @@ func SignIn(w http.ResponseWriter, r *http.Request) {
 	connection.Where("email = 	?", authdetails.Email).First(&authuser)
 
 	if authuser.Email == "" {
-		var Error model.Error
-		Error.Code = "1002"
-		Error.Message = "Username or Passwrod is wrong"
-		errordata, err := json.MarshalIndent(Error, "", "  ")
-		if err != nil {
-			log.Fatalln("error in marshal")
-		}
-		w.Write(errordata)
+		var err model.Error
+		err = utility.SetError(err, "Username or Password is incorrect")
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(err)
 		return
 	}
 
 	check := utility.CheckPasswordHash(authdetails.Password, authuser.Password)
 	if !check {
-		var Error model.Error
-		Error.Code = "1002"
-		Error.Message = "Username or Passwrod is wrong"
-		errordata, err := json.MarshalIndent(Error, "", "  ")
-		if err != nil {
-			log.Fatalln("error in marshal")
-		}
-		w.Write(errordata)
+		var err model.Error
+		err = utility.SetError(err, "Username or Password is incorrect")
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(err)
 		return
 	}
 
@@ -97,7 +96,11 @@ func SignIn(w http.ResponseWriter, r *http.Request) {
 	token.Email = authuser.Email
 	token.TokenString = validToken
 	if err != nil {
-		log.Println("Failed to generate token")
+		var err model.Error
+		err = utility.SetError(err, "Failed to generate token")
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(err)
+		return
 	}
 	tokendata, err := json.MarshalIndent(token, "", "  ")
 	w.Write([]byte(tokendata))

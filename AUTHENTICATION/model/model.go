@@ -21,6 +21,6 @@ type Token struct {
 }
 
 type Error struct {
-	Code    string `json:"code"`
+	IsError bool   `json:"isError"`
 	Message string `json:"message"`
 }

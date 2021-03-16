@@ -8,6 +8,7 @@ import (
 	"package/controller"
 	"package/middleware"
 
+	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
 )
@@ -40,6 +41,11 @@ func InitializeRoute() {
 	router.HandleFunc("/admin/display", middleware.IsAuthorizedAdmin(controller.AdminDisplay)).Methods("GET")
 	router.HandleFunc("/superadmin", middleware.IsAuthorizedSuperAdmin(controller.SuperAdminIndex)).Methods("GET")
 	router.HandleFunc("/user", middleware.IsAuthorizedUser(controller.UserIndex)).Methods("GET")
+	router.Methods("OPTIONS").HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Access-Control-Allow-Origin", "")
+		w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+		w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, Access-Control-Request-Headers, Access-Control-Request-Method, Connection, Host, Origin, User-Agent, Referer, Cache-Control, X-header")
+	})
 
 }
 
@@ -47,5 +53,6 @@ func InitializeRoute() {
 func ServerStart() {
 	serverport := os.Getenv("SERVER_PORT")
 	fmt.Println("Server started at http://localhost" + serverport)
-	http.ListenAndServe(serverport, router)
+	//http.ListenAndServe(serverport, router)
+	http.ListenAndServe(serverport, handlers.CORS(handlers.AllowedHeaders([]string{"X-Requested-With", "Access-Control-Allow-Origin", "Content-Type", "Authorization"}), handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS"}), handlers.AllowedOrigins([]string{"*"}))(router))
 }

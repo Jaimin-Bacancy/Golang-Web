@@ -1,9 +1,12 @@
 package middleware
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"os"
+	"package/model"
+	"package/utility"
 
 	"github.com/dgrijalva/jwt-go"
 )
@@ -12,7 +15,9 @@ func IsAuthorizedAdmin(handler http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
 		if r.Header["Token"] == nil {
-			http.Redirect(w, r, "/", http.StatusSeeOther)
+			var err model.Error
+			err = utility.SetError(err, "No Token Found")
+			json.NewEncoder(w).Encode(err)
 			return
 		}
 		secretkey := os.Getenv("SECRET_KEY")
@@ -25,7 +30,10 @@ func IsAuthorizedAdmin(handler http.HandlerFunc) http.HandlerFunc {
 		})
 
 		if err != nil {
-			fmt.Fprintf(w, err.Error())
+			var err model.Error
+			err = utility.SetError(err, "Your Token has been expired")
+			json.NewEncoder(w).Encode(err)
+			return
 		}
 
 		if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
@@ -44,7 +52,9 @@ func IsAuthorizedSuperAdmin(handler http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
 		if r.Header["Token"] == nil {
-			http.Redirect(w, r, "/", http.StatusSeeOther)
+			var err model.Error
+			err = utility.SetError(err, "No Token Found")
+			json.NewEncoder(w).Encode(err)
 			return
 		}
 
@@ -57,7 +67,10 @@ func IsAuthorizedSuperAdmin(handler http.HandlerFunc) http.HandlerFunc {
 		})
 
 		if err != nil {
-			fmt.Fprintf(w, err.Error())
+			var err model.Error
+			err = utility.SetError(err, "Your Token has been expired")
+			json.NewEncoder(w).Encode(err)
+			return
 		}
 
 		if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
@@ -77,7 +90,9 @@ func IsAuthorizedUser(handler http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
 		if r.Header["Token"] == nil {
-			http.Redirect(w, r, "/", http.StatusSeeOther)
+			var err model.Error
+			err = utility.SetError(err, "No Token Found")
+			json.NewEncoder(w).Encode(err)
 			return
 		}
 
@@ -90,7 +105,10 @@ func IsAuthorizedUser(handler http.HandlerFunc) http.HandlerFunc {
 		})
 
 		if err != nil {
-			fmt.Fprintf(w, err.Error())
+			var err model.Error
+			err = utility.SetError(err, "Your Token has been expired")
+			json.NewEncoder(w).Encode(err)
+			return
 		}
 
 		if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {

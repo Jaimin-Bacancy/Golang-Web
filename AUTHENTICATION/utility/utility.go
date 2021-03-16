@@ -3,6 +3,7 @@ package utility
 import (
 	"fmt"
 	"os"
+	"package/model"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
@@ -17,6 +18,12 @@ func GeneratehashPassword(password string) (string, error) {
 func CheckPasswordHash(password, hash string) bool {
 	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
 	return err == nil
+}
+
+func SetError(err model.Error, message string) model.Error {
+	err.IsError = true
+	err.Message = message
+	return err
 }
 
 func GenerateJWT(email, role string) (string, error) {
