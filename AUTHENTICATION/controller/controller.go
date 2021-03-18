@@ -94,6 +94,7 @@ func SignIn(w http.ResponseWriter, r *http.Request) {
 	validToken, err := utility.GenerateJWT(authuser.Email, authuser.Role)
 	var token model.Token
 	token.Email = authuser.Email
+	token.Role = authuser.Role
 	token.TokenString = validToken
 	if err != nil {
 		var err model.Error
